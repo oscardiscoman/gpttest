@@ -1,0 +1,42 @@
+import pygame
+import webbrowser
+
+pygame.init()
+
+width, height = 500, 500
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Click Me Judy")
+
+def open_google():
+    webbrowser.open("https://www.google.com/?safe=active&ssui=on")
+
+def change_background():
+    screen.fill((255, 0, 0))
+
+font = pygame.font.Font(None, 25)
+click_me_judy_text = font.render("Click Me Judy", True, (0, 0, 0))
+do_not_press_text = font.render("Do not press", True, (0, 0, 0))
+
+click_me_judy_rect = pygame.Rect(width//2 - 50, height//2 - 25, 100, 50)
+do_not_press_rect = pygame.Rect(width//2 - 50, height//2 + 25, 100, 50)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            if click_me_judy_rect.collidepoint(pos):
+                open_google()
+            if do_not_press_rect.collidepoint(pos):
+                change_background()
+
+    screen.fill((255, 255, 255))
+    screen.blit(click_me_judy_text, (width//2 - 50, height//2 - 25))
+    screen.blit(do_not_press_text, (width//2 - 50, height//2 + 25))
+    pygame.draw.rect(screen, (0, 0, 0), click_me_judy_rect, 1)
+    pygame.draw.rect(screen, (0, 0, 0), do_not_press_rect, 1)
+    pygame.display.update()
+
+pygame.quit()
